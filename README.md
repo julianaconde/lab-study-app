@@ -23,7 +23,7 @@ You'll learn how to configure the application, create custom study plans, and mo
 
 ## 📚 Lab Parts
 
-**Available languages**: [English (Default)](tutorial/README.md), [Português (Brasil)](tutorial/translations/pt-br/README.md) and [Español](tutorial/translations/es/README.md).
+**Available languages**: [English (Default)](tutorial/README.md), [Portuguese (Brazil)](tutorial/translations/pt-br/README.md) and [Spanish](tutorial/translations/es/README.md).
 
 1. [Environment Setup and Introduction to StudyPlan AI](tutorial/01-step.md)
 2. [Application Structure Overview](tutorial/02-step.md)
