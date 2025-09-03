@@ -4,7 +4,7 @@ This lab will guide you through creating personalized learning paths using GitHu
 
 Don't forget to [star (🌟) this repo](https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars) to find it easier later.
 
-➡️ Get your own copy by [Forking this repo](https://github.com/cyz/lab-aug12/fork) and find it next in your own repositories.
+➡️ Get your own copy by [Forking this repo](https://github.com/microsoft/lab-study-app/fork) and find it next in your own repositories.
 
 ## 📋Prerequisites
 
