@@ -1,14 +1,47 @@
-# Project
+# Hands-on with GitHub Copilot: Building AI-Powered Study Plans with GitHub Models
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This lab will guide you through creating personalized learning paths using GitHub's AI models. You'll work with a Flask-based web application that generates customized study plans for technology professionals based on their interests, skill level, and available time.
 
-As the maintainer of this project, please make a few updates:
+Don't forget to [star (🌟) this repo](https://docs.github.com/en/get-started/exploring-projects-on-github/saving-repositories-with-stars) to find it easier later.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+➡️ Get your own copy by [Forking this repo](https://github.com/cyz/lab-aug12/fork) and find it next in your own repositories.
+
+## 📋Prerequisites
+
+- Python 3.9+ installed
+- VS Code or Codespaces with GitHub Copilot extension
+- GitHub account with GitHub Copilot subscription (which is available for free for individuals)
+
+## 🔍 Lab Overview
+
+The StudyPlan AI application consists of two main components:
+
+- A Flask-based web interface for user interaction.
+- An AI integration layer that uses GitHub Models to create the study plans based on user input and preferences.
+
+You'll learn how to configure the application, create custom study plans, and modify the AI prompts to enhance the generated content.
+
+## 📚 Lab Parts
+
+**Available languages**: [English (Default)](tutorial/README.md), [Português (Brasil)](tutorial/translations/pt-br/README.md) and [Español](tutorial/translations/es/README.md).
+
+1. [Environment Setup and Introduction to StudyPlan AI](tutorial/01-step.md)
+2. [Application Structure Overview](tutorial/02-step.md)
+3. [Backend and AI Integration](tutorial/03-step.md)
+4. [Data Models and API Endpoint](tutorial/04-step.md)
+5. [Crafting Prompts for AI](tutorial/05-step.md)
+6. [Adding Form Validation](tutorial/06-step.md)
+7. [Creating Custom Chat Modes for Accessibility Testing](tutorial/07-step.md)
+8. [Commit and Code Review with GitHub Copilot](tutorial/08-step.md)
+9. [Review and next steps](tutorial/09-step.md)
+
+## 📚 Resources
+
+- [VS Code](https://code.visualstudio.com/)
+- [GitHub Copilot FREE for VS Code](https://aka.ms/Copilot-Free/y)
+- [GitHub Models Playground](https://github.com/marketplace/models)
+- [Flask Documentation](https://flask.palletsprojects.com/)
+
 
 ## Contributing
 
