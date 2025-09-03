@@ -1,9 +1,6 @@
 # Lab Tutorial
 
-**Available languages**:
-- [English (starts here)](README.md)
-- [Português (Brasil)](translations/pt-br/README.md)
-- [Español](translations/es/README.md)
+**Available languages**: [English (starts here)](README.md), [Portuguese (Brazil)](translations/pt-br/README.md) and [Spanish](translations/es/README.md).
 
 ## 📚 Lab Parts
 
