@@ -57,4 +57,3 @@ build: ## Build Docker image
 docker-run: ## Run the application in Docker
 	@echo "Running application in Docker..."
 	docker run -p 8000:8000 lab-study-app
-

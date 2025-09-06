@@ -25,4 +25,3 @@ EXPOSE 8000
 
 ## Set default command using virtualenv
 CMD ["bash", "-c", "source ${VENV_PATH}/bin/activate && python app.py"]
-
