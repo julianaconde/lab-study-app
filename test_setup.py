@@ -2,6 +2,7 @@ import os
 import httpx
 import asyncio
 
+## Test GitHub API connection
 async def test_github_connection():
     """Tests connection with GitHub API"""
     token = os.getenv('GITHUB_TOKEN')
