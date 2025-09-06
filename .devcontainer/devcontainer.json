@@ -1,27 +1,51 @@
 {
   "name": "Python 3",
-  "image": "mcr.microsoft.com/vscode/devcontainers/python:3.10",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "VARIANT": "3.10-bullseye"
+    }
+  },
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "18"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-
+    "ghcr.io/devcontainers/features/python:1": {}
   },
   "forwardPorts": [8000],
-  "postCreateCommand": "pip install -r requirements.txt",
   "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "app/main.py"
+      ]
+    },
     "vscode": {
       "extensions": [
-        "GitHub.copilot",
         "ms-python.python",
-        "ms-python.debugpy",
-        "dbaeumer.vscode-eslint"
+        "ms-python.vscode-pylance",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
       ],
       "settings": {
+        "python.defaultInterpreterPath": "/home/vscode/venv/bin/python",
+        "python.linting.enabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
         "chat.agent.enabled": true,
         "chat.mcp.enabled": true
       }
     }
-  }
+  },
+  "postCreateCommand": "pip install -r requirements.txt",
+  "postAttachCommand": {
+    "server": "/home/vscode/venv/bin/python app.py"
+  },
+  "portsAttributes": {
+    "8000": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "remoteUser": "vscode"
 }
