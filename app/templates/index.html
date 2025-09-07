@@ -50,10 +50,12 @@
           <!-- Right Navigation -->
           <div class="flex items-center space-x-4">
             <button type="button" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
-              <i class="ri-question-line text-xl"></i>
+              <i class="ri-question-line text-xl" aria-hidden="true"></i>
+              <span class="sr-only">Help</span>
             </button>
             <button type="button" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
-              <i class="ri-settings-3-line text-xl"></i>
+              <i class="ri-settings-3-line text-xl" aria-hidden="true"></i>
+              <span class="sr-only">Settings</span>
             </button>
           </div>
         </div>
@@ -128,6 +130,7 @@
                   <button id="gerar" type="button" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-150 ease-in-out">
                     <i class="ri-magic-line mr-2"></i> Generate Study Plan
                   </button>
+                  <button type="submit" class="sr-only">Submit</button>
                 </div>
                 
                 <div id="status-wrapper" class="flex items-center justify-center mt-2 text-sm text-gray-500 hidden">
@@ -239,6 +242,60 @@
 const el = (id) => document.getElementById(id);
 
 el('gerar').addEventListener('click', async () => {
+  // Validação dos campos obrigatórios
+  const requiredFields = [
+    { id: 'area', name: 'Area' },
+    { id: 'nivel', name: 'Level' },
+    { id: 'tempo', name: 'Weekly Time (hours)' },
+    { id: 'duracao', name: 'Duration (months)' },
+    { id: 'objetivos', name: 'Specific Objectives' }
+  ];
+  let valid = true;
+  let messages = [];
+
+  requiredFields.forEach(field => {
+    const input = el(field.id);
+    // Remove erro anterior
+    input.classList.remove('border-red-500');
+    let value = input.value;
+    if (input.type === 'number') value = value.trim() === '' ? '' : value;
+    if (!value || value.trim() === '') {
+      valid = false;
+      messages.push(`Field "${field.name}" is required.`);
+      input.classList.add('border-red-500');
+    }
+    // Remover erro ao corrigir
+    input.addEventListener('input', () => {
+      if (input.value && input.value.trim() !== '') {
+        input.classList.remove('border-red-500');
+        const errorDiv = document.getElementById(field.id + '-error');
+        if (errorDiv) errorDiv.remove();
+      }
+    });
+  });
+
+  // Remover mensagens de erro antigas
+  document.querySelectorAll('.field-error').forEach(e => e.remove());
+
+  if (!valid) {
+    // Exibir mensagens de erro específicas abaixo dos campos
+    requiredFields.forEach(field => {
+      const input = el(field.id);
+      if (input.classList.contains('border-red-500')) {
+        let errorDiv = document.createElement('div');
+        errorDiv.id = field.id + '-error';
+        errorDiv.className = 'field-error text-xs text-red-600 mt-1';
+        errorDiv.textContent = `This field is required.`;
+        if (input.nextElementSibling) {
+          input.parentNode.insertBefore(errorDiv, input.nextElementSibling);
+        } else {
+          input.parentNode.appendChild(errorDiv);
+        }
+      }
+    });
+    return; // Impede envio se houver campos obrigatórios vazios
+  }
+
   // Update UI before request
   el('status-wrapper').classList.remove('hidden');
   el('empty-state').classList.add('hidden');
@@ -246,7 +303,7 @@ el('gerar').addEventListener('click', async () => {
   el('download-btn').classList.add('hidden');
   el('share-btn').classList.add('hidden');
   el('status').textContent = 'Generating your personalized study plan (30-60s)...';
-  
+
   // Prepare request payload
   const payload = {
     area: el('area').value,
@@ -255,19 +312,18 @@ el('gerar').addEventListener('click', async () => {
     duracao_meses: Number(el('duracao').value),
     objetivos_especificos: el('objetivos').value || null
   };
-  
+
   try {
     // Create AbortController for timeout handling
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
-    
-    const res = await fetch('/api/generate-plan', { 
-      method: 'POST', 
-      headers: { 'Content-Type': 'application/json' }, 
+
+    const res = await fetch('/api/generate-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       signal: controller.signal
     });
-    
     // Clear the timeout if request completes
     clearTimeout(timeoutId);
     

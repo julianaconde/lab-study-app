@@ -1,41 +1,45 @@
 """
 Integration service with GitHub API for accessing AI models (simplified version)
 """
+
 import os
-import requests
 from typing import List, Dict, Optional
-import json
+from azure.ai.inference import ChatCompletionsClient
+from azure.ai.inference.models import SystemMessage, UserMessage
+from azure.core.exceptions import AzureError
+
 
 class GitHubModelsClient:
-    def __init__(self, token: Optional[str] = None, base_url: str = "https://models.inference.ai.azure.com"):
+    def __init__(self, token: Optional[str] = None, endpoint: str = "https://models.github.ai/inference"):
         self.token = token or os.getenv("GITHUB_TOKEN")
-        self.base_url = base_url.rstrip("/")
+        self.endpoint = endpoint
+        self.model = "openai/gpt-4o-mini"
+        self.client = ChatCompletionsClient(endpoint=self.endpoint, credential=self.token)
 
-    # Keeping the asynchronous signature for compatibility
     async def chat_completion(self, messages: List[Dict], temperature: float = 0.7, max_tokens: int = 2000) -> str:
-        headers = {
-            "Authorization": f"Bearer {self.token}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "messages": messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }
+        # Convert messages to Azure format
+        azure_messages = []
+        for msg in messages:
+            if msg.get("role") == "system":
+                azure_messages.append(SystemMessage(content=msg["content"]))
+            elif msg.get("role") == "user":
+                azure_messages.append(UserMessage(content=msg["content"]))
+
         try:
-            resp = requests.post(
-                f"{self.base_url}/gpt-4o/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=30
+            response = self.client.complete(
+                model=self.model,
+                messages=azure_messages,
+                temperature=temperature,
+                max_tokens=max_tokens
             )
-            resp.raise_for_status()
-            data = resp.json()
-            return data["choices"][0]["message"]["content"]
-        except requests.exceptions.RequestException as e:
-            if hasattr(e, 'response') and e.response:
-                raise Exception(f"API Error: {e.response.status_code}")
+            # Azure response structure
+            if response.choices and response.choices[0].message:
+                return response.choices[0].message.content
             else:
-                raise Exception(f"Request failed: {str(e)}")
+                raise Exception("Resposta inesperada do modelo.")
+        except AzureError as e:
+            # Erro detalhado do Azure
+            return f"Erro Azure AI Inference: {str(e)}"
         except Exception as e:
-            raise Exception(f"Request failed: {str(e)}")
+            # Fallback simulado para testes
+            return f"[Simulado] Não foi possível obter resposta do modelo: {str(e)}"

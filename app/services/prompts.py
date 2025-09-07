@@ -19,65 +19,54 @@ def build_study_plan_prompt(area: str, nivel: str, tempo: int, duracao: int, obj
     }
 
     system_prompt = """
-You are an expert in technology education with over 10 years of experience.
-Your mission is to create personalized, practical, and realistic study plans for technology professionals.
+    You are an education specialist with over 10 years of experience.
+    Your mission is to create practical, structured, and realistic study plans.
+    Always respond in the user's preferred language.
+    Include progressive hands-on projects and specific resources (courses, books, tools).
+    Requirements:
+    1. Provide a detailed weekly schedule for the entire duration.
+    2. Recommend specific resources (courses, books, tools, communities) for each phase.
+    3. Include progressive practical projects for each month.
+    4. Define monthly evaluation milestones.
+    5. Make the plan structured, realistic, and actionable.
 
-GUIDELINES:
-- ALWAYS respond in English
-- Be specific with technologies, tools, and resources
-- Include hands-on projects in each phase
-- Consider the student's available time
-- Provide detailed weekly schedule
-- Suggest free resources when possible
-- Include monthly evaluation milestones
+    Format:
+    - Weekly schedule
+    - Monthly roadmap with projects and milestones
+    - List of resources (with links if possible)
+    - Practical projects description
+    - Evaluation milestones
+    - Success tips
 
-RESPONSE FORMAT:
-Structure as a professional plan with clear sections and specific schedule.
+    Be specific, motivational, and always respond in the user's preferred language!
 """
 
     user_prompt = f"""
-Create a complete and personalized study plan for:
+    Create a detailed and personalized study plan for:
 
-📊 STUDENT PROFILE:
-- Area of interest: {area_mapping.get(area, area)}
-- Current level: {level_mapping.get(nivel, nivel)}
-- Available time: {tempo} hours per week
-- Desired duration: {duracao} months
-- Specific objectives: {objetivos or "Not specified"}
+    📊 STUDENT PROFILE:
+    - Area: {area_mapping.get(area, area)}
+    - Level: {level_mapping.get(nivel, nivel)}
+    - Available time per week: {tempo} hours
+    - Total duration: {duracao} months
+    - Objectives: {objetivos or "Not specified"}
 
-📋 REQUIRED STRUCTURE:
+    Requirements:
+    1. Provide a detailed weekly schedule for the entire duration.
+    2. Recommend specific resources (courses, books, tools, communities) for each phase.
+    3. Include progressive practical projects for each month.
+    4. Define monthly evaluation milestones.
+    5. Make the plan structured, realistic, and actionable.
 
-## 1. PROFILE ANALYSIS
-- Assessment of current level
-- Realistic expectations for available time
+    Format:
+    - Weekly schedule
+    - Monthly roadmap with projects and milestones
+    - List of resources (with links if possible)
+    - Practical projects description
+    - Evaluation milestones
+    - Success tips
 
-## 2. WEEKLY SCHEDULE
-- Division of {tempo} weekly hours
-- Specific activities for each day
-- Theory/practice balance
-
-## 3. MONTHLY ROADMAP
-- Objectives and deliverables for each month
-- Progressive practical projects
-- Evaluation milestones
-
-## 4. RECOMMENDED RESOURCES
-- Specific online courses (with links if possible)
-- Relevant technical books
-- Tools and technologies
-- Communities and networking
-
-## 5. PRACTICAL PROJECTS
-- Project for each month
-- Growth in complexity
-- Professional portfolio
-
-## 6. SUCCESS TIPS
-- How to maintain motivation
-- How to deal with difficulties
-- Next steps after completion
-
-Be specific, motivational and VERY practical!
+    Be specific, motivational, and always respond in the user's preferred language!
 """
 
     return [
