@@ -7,7 +7,7 @@ from flask import Blueprint, request, jsonify
 from dotenv import load_dotenv
 from pathlib import Path
 
-from app.models import StudyPlanRequest, StudyPlanResponse
+# Removido import duplicado, usar apenas o modelo Pydantic
 from app.services.prompts import build_study_plan_prompt
 """
 from app.services.github_client import GitHubModelsClient
@@ -36,7 +36,15 @@ def generate_study_plan():
     if not data:
         return jsonify({"success": False, "error": "Invalid data"}), 400
     # Create StudyPlanRequest object from JSON data
-    req = StudyPlanRequest.from_dict(data)
+    mapped_data = {
+        "area": data.get("area"),
+        "level": data.get("nivel"),
+        "weekly_hours": data.get("tempo_semanal"),
+        "duration_months": data.get("duracao_meses"),
+        "specific_objectives": data.get("objetivos_especificos"),
+    }
+    # Instanciar o modelo Pydantic corretamente
+    req = StudyPlanRequest(**mapped_data)
 
 
 
